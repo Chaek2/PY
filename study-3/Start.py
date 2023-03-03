@@ -1,0 +1,2 @@
+import Main
+Main.Auto()
