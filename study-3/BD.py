@@ -14,13 +14,13 @@ def Row(table,record,fun):
                 cur.execute('Update '+table+' set Number = ?,Password = ?,Card = ?, Wallet = ? where ID_Player = ?',(record[0],record[1],record[2],record[3],record[4]))
                 con.commit()
             elif(fun=="D"): 
-                cur.execute('Delete from '+table+' where ID_Player = ?',(record[0])) 
+                cur.execute('Delete from '+table+' where ID_Player = ?',[record]) 
                 con.commit()          
             elif(fun=="S"):
                 if not record:
                     return cur.execute('Select * from '+table).fetchall() 
                 else:
-                    return cur.execute('Select * from '+table+' where Number = ?',(record)).fetchall() 
+                    return cur.execute('Select * from '+table+' where Number = ?',[record]).fetchall() 
                                
         case "Component":
             if(fun=="I"):
@@ -30,29 +30,29 @@ def Row(table,record,fun):
                 cur.execute('Insert into '+table+' set Title = ?,Num = ?,Price = ? where ID_Component = ?',(record[0],record[1],record[2],record[3]))
                 con.commit()
             elif(fun=="D"): 
-                cur.execute('Delete from '+table+' where ID_Component = ?',(record[0]))    
+                cur.execute('Delete from '+table+' where ID_Component = ?',[record])    
                 con.commit()
             elif(fun=="S"): 
                 if not record:
                     return cur.execute('Select * from '+table).fetchall() 
                 else:
-                    return cur.execute('Select * from '+table+' where Title = ?',(record[0])).fetchall() 
+                    return cur.execute('Select * from '+table+' where Title = ?',[record]).fetchall() 
                 
         case "Dish":
             if(fun=="I"):
-                cur.execute('Insert into '+table+' (Title) values (?)',(record[0]))
+                cur.execute('Insert into '+table+' (Title) values (?)',[record])
                 con.commit()
             elif(fun=="U"):
                 cur.execute('Insert into '+table+' set Title = ? where ID_Dish = ?',(record[0],record[1]))
                 con.commit()
             elif(fun=="D"): 
-                cur.execute('Delete from '+table+' where ID_Dish = ?',(record[0]))  
+                cur.execute('Delete from '+table+' where ID_Dish = ?',[record])  
                 con.commit()
             elif(fun=="S"): 
                 if not record:
                     return cur.execute('Select * from '+table).fetchall() 
                 else:
-                    return cur.execute('Select * from '+table+' where Title = ?',(record[0])).fetchall()  
+                    return cur.execute('Select * from '+table+' where Title = ?',[record]).fetchall()  
                           
         case "History_Buy":
             if(fun=="I"):
@@ -62,13 +62,13 @@ def Row(table,record,fun):
                 cur.execute('Insert into '+table+' set Player_ID = ?,Data = ?,Sum = ? where ID_History_Buy = ?',(record[0],record[1],record[2],record[3]))
                 con.commit()
             elif(fun=="D"): 
-                cur.execute('Delete from '+table+' where ID_History_Buy = ?',(record[0]))  
+                cur.execute('Delete from '+table+' where ID_History_Buy = ?',[record])  
                 con.commit() 
             elif(fun=="S"): 
                 if not record:
                     return cur.execute('Select * from '+table).fetchall() 
                 else:
-                    return cur.execute('Select * from '+table+' where Player_ID = ?',(record[0])).fetchall()   
+                    return cur.execute('Select * from '+table+' where Player_ID = ?',[record]).fetchall()   
                 
         case "Dish_Component":
             if(fun=="I"):
@@ -78,13 +78,13 @@ def Row(table,record,fun):
                 cur.execute('Insert into '+table+' set Dish_ID = ?,Component_ID = ? where ID_Dish_Component = ?',(record[0],record[1],record[2]))
                 con.commit()
             elif(fun=="D"): 
-                cur.execute('Delete from '+table+' where ID_Dish_Component = ?',(record[0])) 
+                cur.execute('Delete from '+table+' where ID_Dish_Component = ?',[record]) 
                 con.commit()   
             elif(fun=="S"): 
                 if not record:
                     return cur.execute('Select * from '+table).fetchall() 
                 else:
-                    return cur.execute('Select * from '+table+' where ID_Dish = ?',(record[0])).fetchall()    
+                    return cur.execute('Select * from '+table+' where ID_Dish = ?',[record]).fetchall()    
                 
 def AddMoney(log):
     mon=0
