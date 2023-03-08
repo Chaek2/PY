@@ -4,11 +4,11 @@ import time as t
 def registr():    
     log = input("Введите номер телефона (79123456789): ")
     pas = input("Введите пароль (Aqr90_): ")
-    BD.Row("Player",(log,pas),"I")
-    animation.progbar2()
+    BD.Row("Player",[log,pas],"I")
+    animation.progbar3()
     t.sleep(2)
-    Main.Auto()
-    
+    BD.AddMoney(log)
+    Main.menu(log)
 
 def autorisathion():    
     log = input("Введите номер телефона: ")

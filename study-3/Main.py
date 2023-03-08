@@ -1,5 +1,5 @@
-import Registration
-import os
+import os, AdminMenu, Registration,BD
+from pick import pick
 ranIn=100
 
 def Auto():
@@ -15,4 +15,19 @@ def Auto():
 
 def menu(log):
     os.system('cls')
-    print("Nice!")
+    if log == "89680623972":
+        title = 'Меню админа: '
+        options = ['Купить', 'Выйти']
+        option, index = pick(options, title, indicator='=>')
+    else:
+        rec = BD.Row("History_Buy",BD.Row("Player",(log),"S"),)
+        if not rec:
+            title = 'Меню пользователя: '
+            options = ['Купить']
+            option, index = pick(options, title, indicator='=>')
+
+        else:
+            title = 'Меню пользователя: '
+            options = ['Купить', 'Выйти']
+            option, index = pick(options, title, indicator='=>')
+            

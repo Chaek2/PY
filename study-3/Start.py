@@ -1,2 +1,2 @@
-import Main
+import Main, BD
 Main.Auto()
