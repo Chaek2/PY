@@ -1,4 +1,4 @@
-import os, AdminMenu, Registration,BD
+import os, AdminMenu, Registration,BD, PlayerMenu
 from pick import pick
 ranIn=100
 
@@ -19,15 +19,23 @@ def menu(log):
         title = 'Меню админа: '
         options = ['Купить', 'Выйти']
         option, index = pick(options, title, indicator='=>')
+        if(index==0):
+            PlayerMenu.BuyComponent(log)
+        if(index==1):
+            exit()
     else:
-        rec = BD.Row("History_Buy",BD.Row("Player",(log),"S"),)
+        rec = BD.Row("History_Buy",BD.Row("Player",(log),"S"),"S")
         if not rec:
             title = 'Меню пользователя: '
             options = ['Купить']
             option, index = pick(options, title, indicator='=>')
-
+            PlayerMenu.BuyComponent(log)
         else:
             title = 'Меню пользователя: '
             options = ['Купить', 'Выйти']
             option, index = pick(options, title, indicator='=>')
+            if(index==0):
+                PlayerMenu.BuyComponent(log)
+            if(index==1):
+                exit()
             

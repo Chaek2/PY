@@ -23,7 +23,8 @@ def autorisathion():
         autorisathion()
     else:
         for row in rec:
-            if pas == row[2]:
+            passes = rec[0]
+            if pas == passes[2]:
                 Main.menu(log)
             else:
                 os.system('cls')
