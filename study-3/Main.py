@@ -1,4 +1,4 @@
-import os, AdminMenu, Registration,BD, PlayerMenu
+import os, AdminMenu, Registration,BD, PlayerMenu, Wallet, Info
 from pick import pick
 ranIn=100
 
@@ -17,25 +17,36 @@ def menu(log):
     os.system('cls')
     if log == "89680623972":
         title = 'Меню админа: '
-        options = ['Купить', 'Выйти']
+        options = ['Склад','Просмотр клиента', 'Выйти']
         option, index = pick(options, title, indicator='=>')
         if(index==0):
-            PlayerMenu.BuyComponent(log)
+            AdminMenu.BuyComponent(log)
         if(index==1):
+            Info.adminmenu()
+        if(index==2):
             exit()
     else:
-        rec = BD.Row("History_Buy",BD.Row("Player",(log),"S"),"S")
+        rec = BD.Row("Player",(log),"S")
+        for i in BD.Row("Player",(log),"S"):
+            rec = BD.Row("History_Buy",i[0],"S")
         if not rec:
             title = 'Меню пользователя: '
-            options = ['Купить']
-            option, index = pick(options, title, indicator='=>')
-            PlayerMenu.BuyComponent(log)
-        else:
-            title = 'Меню пользователя: '
-            options = ['Купить', 'Выйти']
+            options = ['Купить', 'Пополнить']
             option, index = pick(options, title, indicator='=>')
             if(index==0):
                 PlayerMenu.BuyComponent(log)
             if(index==1):
+                exit()
+        else:
+            title = 'Меню пользователя: '
+            options = ['Купить', 'Пополнить','Просмотр покупок','Выйти']
+            option, index = pick(options, title, indicator='=>')
+            if(index==0):
+                PlayerMenu.BuyComponent(log)
+            if(index==1):
+                Wallet.Add(log)
+            if(index==2):
+                Info.playermenu(log)
+            if(index==3):
                 exit()
             

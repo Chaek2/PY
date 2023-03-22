@@ -8,10 +8,12 @@ def BuyComponent(_log):
     global rec,rows,log
     log=_log
     titles = 'Еда: '
-    options=[]
-    for row in BD.Row("Dish",options,"S"):
+    options=['Выйти']
+    for row in BD.Row("Dish",[],"S"):
         options.append(row[1])
     option, index = pick.pick(options, titles, indicator='=>')
+    if index == 0:
+        Main.menu(log)
     rows = BD.Row("Component",(option),"S")
     rec = list(BD.Row("Component",[],"S"))
     i=0
@@ -96,9 +98,10 @@ def enter():
             print("Попался глаз. Скидка 30%")
             t.sleep(2)
         bal-=(sam-full)        
-        balance = BD.UpdateBalance(log,bal,sam)
+        BD.UpdateBalance(log,sam)
         BD.UpdateSkald(rec)
-        Cheque.cheque(rec,balance)
+        t.sleep(6)
+        Cheque.cheque(rec,sam)
         Main.menu(log)
     else:
         print()

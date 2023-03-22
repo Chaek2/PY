@@ -5,14 +5,14 @@ def cheque(ingr,sum):
     my_file.write("Чек!")
     ing = "Ингридиенты"
     num = 0
-    n=0
+    n=1
     for i in range(len(ingr)):
         ingr[i]=list(ingr[i])
         tec = ingr[i]
         ing=tec[1]
         num=tec[2]
-        my_file.write("{0}. {1}  шт:{2}".format(ing,num))        
+        my_file.write("{0}. {1}  шт:{2}\n".format(n,ing,num))        
         n+=1
-    my_file.write()
+    my_file.write("")
     my_file.write("Цена: "+str(sum))
     my_file.close()

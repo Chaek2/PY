@@ -1,6 +1,7 @@
 import sqlite3 as sl
 import random as r
 from datetime import date
+import time
 
 
 def Row(table,record,fun):
@@ -36,7 +37,9 @@ def Row(table,record,fun):
                 if not record:
                     return cur.execute('Select * from '+table).fetchall()
                 else:
-                    return cur.execute('Select Component.ID_Component,Component.Title,Component.Num,Component.Price,Component.Skald from Component inner join Dish_Component on Dish_Component.Component_ID = Component.ID_Component inner join Dish on Dish.ID_Dish = Dish_Component.Dish_ID where Dish.Title = ?',[record]).fetchall()
+                    return cur.execute('Select Component.ID_Component,Component.Title,Component.Num,Component.Price,Component.Sklad from Component inner join Dish_Component on Dish_Component.Component_ID = Component.ID_Component inner join Dish on Dish.ID_Dish = Dish_Component.Dish_ID where Dish.Title = ?',[record]).fetchall()
+            elif(fun=="SE"): 
+                    return cur.execute('Select * from '+table +' where ID_Component = ?',[record]).fetchall()
         case "Dish":
             if(fun=="I"):
                 cur.execute('Insert into '+table+' (Title) values (?)',[record])
@@ -93,49 +96,64 @@ def AddMoney(log):
     for i in Row("Player",log,"S"):
         Row("Player",(i[1],i[2],i[3],money,i[0]),"U")
 
-def UpdateBalance(log,Balance, sum):
+def UpdateBalance(log, sum):
     card=0
-    for i in Row("Player",log,"S"):        
+    for i in Row("Player",(log),"S"):        
         match i[3]:
             case 0:
                 print("нету карты")
+                Balance=0
             case 1:
                 print("бронзовая карта 5%")
-                Bal=Balance
+                Bal=sum
                 Balance = Bal/100*5
             case 2:
                 print("серебренная карта 10%")
-                Bal=Balance
+                Bal=sum
                 Balance = Bal/100*10
             case 3:
                 print("золотая карта 20%")
-                Bal=Balance
-                Balance = Bal/100*20
+                Bal=sum
+                Balance = Bal/100*20     
         if(sum>=5000):
             card=1
-        if(sum>=15000):
+        elif(sum>=15000):
             card=2
-        if(sum>=25000):
-            card=3   
+        elif(sum>=25000):
+            card=3
+        else:   
+            card=0
         bala = i[4]
-        bala-=Balance       
-        if(i[3]>card):
-            Row("Player",(i[1],i[2],i[3],bala),"U")
+        bala-=sum       
+        bala+=Balance       
+        if(i[3]<card):
+            Row("Player",(i[1],i[2],card,bala,i[0]),"U")
         else:
-            Row("Player",(i[1],i[2],card,bala),"U")
-        Buy(i[0],Balance)
+            Row("Player",(i[1],i[2],i[3],bala,i[0]),"U")
+        Buy(i[0],bala)
     for i in Row("Player","89680623972","S"):
         bala = i[4]
-        bala+=Balance
-        Row("Player",(i[1],i[2],i[3],bala),"U")
-    return Balance
+        bala+=sum
+        Row("Player",(i[1],i[2],i[3],bala,i[0]),"U")
     
 
 def Buy(id,sum):
-    Row("Player",[id,date.today(),sum],"I")
+    Row("History_Buy",[id,date.today(),sum],"I")
 
 def UpdateSkald(ingr):
-    for i in range(len(ingr)):
+    for i in range(0,len(ingr)):
         ingr[i]=list(ingr[i])
         tec = ingr[i]
-        Row("Component",[tec[1],tec[2],tec[3],tec[4],tec[0]],"U")
+        for s in Row("Component",(tec[0]),"SE"):
+            Row("Component",[s[1],s[2],s[3],tec[4]-tec[2],s[0]],"U")
+
+def AddSkald(ingr):
+    for i in range(0,len(ingr)):
+        ingr[i]=list(ingr[i])
+        tec = ingr[i]
+        for s in Row("Component",(tec[0]),"SE"):
+            Row("Component",[tec[1],tec[2],tec[3],tec[4],s[0]],"U")
+
+def BuyComponent(log, sum):
+        for i in Row("Player",(log),"S"):   
+            Row("Player",(i[1],i[2],i[3],i[4]-sum,i[0]),"U")
