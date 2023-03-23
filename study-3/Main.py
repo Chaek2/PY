@@ -30,13 +30,14 @@ def menu(log):
         for i in BD.Row("Player",(log),"S"):
             rec = BD.Row("History_Buy",i[0],"S")
         if not rec:
+            for i in BD.Row("Player",(log),"S"):
+                if i[4]>0:
+                    PlayerMenu.BuyComponent(log)
             title = 'Меню пользователя: '
-            options = ['Купить', 'Пополнить']
+            options = ['Пополнить']
             option, index = pick(options, title, indicator='=>')
             if(index==0):
-                PlayerMenu.BuyComponent(log)
-            if(index==1):
-                exit()
+                Wallet.Add(log)
         else:
             title = 'Меню пользователя: '
             options = ['Купить', 'Пополнить','Просмотр покупок','Выйти']

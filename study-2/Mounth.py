@@ -14,3 +14,4 @@ else:
     b+= MM(28)
 b+= MM(30)*4
 print("YY: "+str(b))
+#git push --set-upstream p50-7-20-Ogurcov-Anton master

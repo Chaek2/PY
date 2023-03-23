@@ -107,14 +107,17 @@ def UpdateBalance(log, sum):
                 print("бронзовая карта 5%")
                 Bal=sum
                 Balance = Bal/100*5
+                sum-=Bal/100*5  
             case 2:
                 print("серебренная карта 10%")
                 Bal=sum
                 Balance = Bal/100*10
+                sum-=Bal/100*10  
             case 3:
                 print("золотая карта 20%")
                 Bal=sum
-                Balance = Bal/100*20     
+                Balance = Bal/100*20  
+                sum-=Bal/100*20     
         if(sum>=5000):
             card=1
         elif(sum>=15000):
@@ -125,7 +128,13 @@ def UpdateBalance(log, sum):
             card=0
         bala = i[4]
         bala-=sum       
-        bala+=Balance       
+        bala+=Balance 
+        k = Row("History_Buy",(i[0]),"S")
+        if len(k)>5:
+            Bal=sum            
+            bala += Bal/100*20  
+            sum-=Bal/100*20  
+            print("Скидка 20% за более 5-ти заказов")
         if(i[3]<card):
             Row("Player",(i[1],i[2],card,bala,i[0]),"U")
         else:

@@ -21,7 +21,7 @@ def autorisathion():
     log = input("Введите номер телефона: ")
     pas = input("Введите пароль: ")
     rec = BD.Row("Player",(log),"S")
-    animation.progbar3()
+    animation.progbar2()
     os.system('cls')  
     if not rec:
         print("Нет таких данных")        
